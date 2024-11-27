@@ -1,36 +1,30 @@
-import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
-import random
 
-# Загрузка данных из CSV-файла
-data_file = "filtered_gdp_data.csv"
-data = pd.read_csv(data_file)
+# Годы
+x = [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015]
 
-# Убираем строки с пустыми значениями в колонке "2016 [YR2016]"
-data = data.dropna(subset=["2016 [YR2016]"])
+# Количество игроков в видеоигры (например, в миллионах) для Украины
+y = [2.3, 2.5, 2.8, 3.0, 3.5, 4.0, 4.5, 5.0, 5.2, 5.5, 5.8, 6.0, 6.2, 6.5, 6.8, 7.0]
 
-# Преобразование колонки "2016 [YR2016]" в числовой формат
-data["2016 [YR2016]"] = pd.to_numeric(data["2016 [YR2016]"], errors='coerce')
+# Количество игроков в видеоигры для Албании
+z = [0.5, 0.6, 0.7, 0.8, 1.0, 1.2, 1.5, 1.8, 2.0, 2.2, 2.5, 2.7, 3.0, 3.3, 3.5, 3.8]
 
-# Выбор случайных 10 стран
-random_countries = data.sample(10)
+# Преобразование данных в numpy-массивы
+x = np.array(x)
+y = np.array(y)
+z = np.array(z)
 
-# Извлечение названий стран и значений
-labels = random_countries["Country Name"]
-values = random_countries["2016 [YR2016]"]
+# Построение графиков
+plt.plot(x, y, label='Ukraine', color='blue')   # График для Украины
+plt.plot(x, z, label='Albania', color='green')  # График для Албании
 
-# Построение круговой диаграммы
-plt.figure(figsize=(10, 8))
-plt.pie(
-    values,
-    labels=labels,
-    autopct='%1.1f%%',  # Подписи в процентах
-    startangle=90,
-    colors=plt.cm.tab10.colors,  # Цветовая палитра
-    wedgeprops={'edgecolor': 'black'}
-)
+# Настройка графика
+plt.title('Number of Gamers by Year', fontsize=15)   # Название графика
+plt.xlabel('Year', fontsize=12, color='black')      # Подпись оси X
+plt.ylabel('Number of Gamers (millions)', fontsize=12, color='black')  # Подпись оси Y
+plt.legend()                                        # Легенда
+plt.grid(True)                                      # Сетка
 
-# Настройка заголовка
-plt.title("Круговая диаграмма значений 2016 года для 10 случайных стран", fontsize=14)
-plt.tight_layout()
+# Отображение графика
 plt.show()
